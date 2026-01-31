@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Survey Project</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        h2 {
+            color: #764ba2;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .dialogue {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+        
+        .interviewer {
+            color: #667eea;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .respondent {
+            color: #764ba2;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+        
+        .dialogue p {
+            margin: 8px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin: 30px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .respondent-name {
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .survey-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛍️ Where Do We Shop?</h1>
+        <p class="subtitle">A Fun Survey About Shopping Habits</p>
+        
+        <!-- SECTION 1: SURVEY QUESTIONS -->
+        <div class="section">
+            <h2>📋 Our Questions</h2>
+            <div class="survey-form">
+                <div class="question">
+                    <span class="question-number">Question 1:</span> Where do you shop?
+                    <p style="margin-top: 5px; color: #666;">(supermarket, store, market, online, etc.)</p>
+                </div>
+                
+                <div class="question">
+                    <span class="question-number">Question 2:</span> Why do you like this place?
+                    <p style="margin-top: 5px; color: #666;">(good prices, nice stuff, close by, etc.)</p>
+                </div>
+                
+                <div class="question">
+                    <span class="question-number">Question 3:</span> When do you shop?
+                    <p style="margin-top: 5px; color: #666;">(morning, afternoon, weekend, etc.)</p>
+                </div>
+                
+                <div class="question">
+                    <span class="question-number">Question 4:</span> What do you like to buy?
+                    <p style="margin-top: 5px; color: #666;">(food, clothes, games, books, etc.)</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SECTION 2: DIALOGUE INTERVIEWS -->
+        <div class="section">
+            <h2>💬 Our Interviews</h2>
+            
+            <div class="dialogue">
+                <p><span class="interviewer">Q: Where do you shop?</span></p>
+                <p><span class="respondent">Alex: I go to the supermarket with my family.</span></p>
+                
+                <p><span class="interviewer">Q: Why do you like it there?</span></p>
+                <p><span class="respondent">Alex: Because they have lots of food and it's near my home. The prices are good!</span></p>
+                
+                <p><span class="interviewer">Q: When do you go shopping?</span></p>
+                <p><span class="respondent">Alex: Usually on Saturday mornings with my mom.</span></p>
+                
+                <p><span class="interviewer">Q: What do you buy?</span></p>
+                <p><span class="respondent">Alex: Food like milk, bread, and fruit. Sometimes snacks and juice!</span></p>
+            </div>
+            
+            <div class="dialogue">
+                <p><span class="interviewer">Q: Where do you like to shop?</span></p>
+                <p><span class="respondent">Sofia: I like the shopping mall! And I shop online sometimes too.</span></p>
+                
+                <p><span class="interviewer">Q: What's good about these places?</span></p>
+                <p><span class="respondent">Sofia: The mall has cool shops with clothes and games. Online shopping is easy - I can order from home!</span></p>
+                
+                <p><span class="interviewer">Q: When do you shop?</span></p>
+                <p><span class="respondent">Sofia: After school, on weekends, and during holidays. I like shopping with my friends!</span></p>
+                
+                <p><span class="interviewer">Q: What do you buy?</span></p>
+                <p><span class="respondent">Sofia: Clothes, shoes, books, and games. I love getting new stuff!</span></p>
+            </div>
+            
+            <div class="dialogue">
+                <p><span class="interviewer">Q: Where do you shop?</span></p>
+                <p><span class="respondent">Marcus: I go to the small market near my house.</span></p>
+                
+                <p><span class="interviewer">Q: Why do you choose the market?</span></p>
+                <p><span class="respondent">Marcus: Because the fruit and vegetables are fresh and cheap! I know the people who work there.</span></p>
+                
+                <p><span class="interviewer">Q: When do you go?</span></p>
+                <p><span class="respondent">Marcus: In the morning before school. Sometimes with my grandma.</span></p>
+                
+                <p><span class="interviewer">Q: What do you usually buy?</span></p>
+                <p><span class="respondent">Marcus: Fruit, vegetables, bread, and sometimes cheese. My grandma likes fresh food!</span></p>
+            </div>
+        </div>
+        
+        <!-- SECTION 3: RESULTS TABLE -->
+        <div class="section">
+            <h2>📊 What We Found Out</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Person</th>
+                        <th>Where?</th>
+                        <th>Why?</th>
+                        <th>When?</th>
+                        <th>What?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="respondent-name">Alex</span></td>
+                        <td>Supermarket</td>
+                        <td>Lots of food, good prices, close by</td>
+                        <td>Saturday mornings</td>
+                        <td>Food, milk, bread, fruit, snacks</td>
+                    </tr>
+                    <tr>
+                        <td><span class="respondent-name">Sofia</span></td>
+                        <td>Shopping mall & online</td>
+                        <td>Cool shops, easy to order from home</td>
+                        <td>After school, weekends</td>
+                        <td>Clothes, shoes, books, games</td>
+                    </tr>
+                    <tr>
+                        <td><span class="respondent-name">Marcus</span></td>
+                        <td>Local market</td>
+                        <td>Fresh and cheap, nice people</td>
+                        <td>Mornings before school</td>
+                        <td>Fruit, vegetables, bread, cheese</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- SECTION 4: CHARTS -->
+        <div class="section">
+            <h2>📈 Data Visualization</h2>
+            
+            <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">Where Do People Shop?</h3>
+            <div class="chart-container">
+                <canvas id="locationChart"></canvas>
+            </div>
+            
+            <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">When Do People Shop?</h3>
+            <div class="chart-container">
+                <canvas id="timeChart"></canvas>
+            </div>
+            
+            <h3 style="color: #667eea; margin-top: 30px; margin-bottom: 15px;">What Do People Buy?</h3>
+            <div class="chart-container">
+                <canvas id="productsChart"></canvas>
+            </div>
+        </div>
+        
+        <!-- SECTION 5: SUMMARY -->
+        <div class="section" style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+            <h2>📌 What Did We Learn?</h2>
+            <ul style="margin-left: 20px; line-height: 2;">
+                <li><strong>Different Places:</strong> Some people like supermarkets because they have everything. Others like markets for fresh food or shopping malls for clothes.</li>
+                <li><strong>Why People Choose:</strong> People choose places because they like the prices, the quality, how close it is, or the friendly people there.</li>
+                <li><strong>When We Shop:</strong> Some shop in the morning, some in the afternoon, and some on weekends. It depends on what we like!</li>
+                <li><strong>What We Buy:</strong> Everyone buys food, but some people also like clothes, games, and books. It's different for everyone!</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // Chart 1: Shopping Locations
+        const locationCtx = document.getElementById('locationChart').getContext('2d');
+        new Chart(locationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Supermarket', 'Market', 'Shopping Mall', 'Online'],
+                datasets: [{
+                    data: [40, 30, 20, 10],
+                    backgroundColor: [
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb',
+                        '#4facfe'
+                    ],
+                    borderColor: 'white',
+                    borderWidth: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 12 },
+                            padding: 15
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Chart 2: Shopping Time
+        const timeCtx = document.getElementById('timeChart').getContext('2d');
+        new Chart(timeCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Morning', 'Afternoon', 'Evening', 'Weekend'],
+                datasets: [{
+                    label: 'Number of People',
+                    data: [10, 15, 8, 20],
+                    backgroundColor: [
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb',
+                        '#4facfe'
+                    ],
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 30
+                    }
+                }
+            }
+        });
+        
+        // Chart 3: Products
+        const productsCtx = document.getElementById('productsChart').getContext('2d');
+        new Chart(productsCtx, {
+            type: 'radar',
+            data: {
+                labels: ['Food', 'Clothes', 'Books', 'Games', 'Other'],
+                datasets: [
+                    {
+                        label: 'Alex',
+                        data: [90, 40, 30, 70, 50],
+                        borderColor: '#667eea',
+                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Sofia',
+                        data: [60, 90, 80, 85, 70],
+                        borderColor: '#764ba2',
+                        backgroundColor: 'rgba(118, 75, 162, 0.2)',
+                        borderWidth: 2
+                    },
+                    {
+                        label: 'Marcus',
+                        data: [95, 30, 20, 40, 30],
+                        borderColor: '#4facfe',
+                        backgroundColor: 'rgba(79, 172, 254, 0.2)',
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 12 },
+                            padding: 15
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
